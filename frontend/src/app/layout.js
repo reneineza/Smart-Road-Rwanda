@@ -41,10 +41,10 @@ export default function RootLayout({ children }) {
                 </Link>
               </li>
               <li>
-                <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <Link href="/traffic" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                   <Activity className="w-5 h-5" />
                   Traffic
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
