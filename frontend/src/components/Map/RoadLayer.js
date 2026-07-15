@@ -16,7 +16,7 @@ import { getRoadStyle, ROAD_HOVER_STYLE, ROAD_SELECTED_STYLE } from './roadStyle
  *   - onRoadClick: callback(roadProperties) when user clicks a road
  *   - fitBounds: whether to auto-fit map to data on first load
  */
-export default function RoadLayer({ geoData, selectedId, onRoadClick, fitBounds = true }) {
+export default function RoadLayer({ geoData, selectedId, onRoadClick, fitBounds = true, visible = true }) {
   const map = useMap();
   const layerRef = useRef(null);
 
@@ -34,7 +34,7 @@ export default function RoadLayer({ geoData, selectedId, onRoadClick, fitBounds 
     }
   }, [geoData, map, fitBounds]);
 
-  if (!geoData) return null;
+  if (!visible || !geoData) return null;
 
   const styleFeature = (feature) => {
     const isSelected = feature.properties.id === selectedId;

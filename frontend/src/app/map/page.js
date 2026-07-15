@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import { Search, SlidersHorizontal, X, Layers, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Layers, ChevronDown, Check } from 'lucide-react';
 import RoadList from '../../components/roads/RoadList';
 import RoadInfoPanel from '../../components/roads/RoadInfoPanel';
 import MapLegend from '../../components/Map/MapLegend';
@@ -35,6 +35,33 @@ export default function MapExplorer() {
   const [filterClass, setFilterClass] = useState('');
   const [filterSurface, setFilterSurface] = useState('');
   const [filterCondition, setFilterCondition] = useState('');
+
+  // Layers state
+  const [activeLayers, setActiveLayers] = useState({
+    roads: true,
+    traffic: false,
+    safety: false,
+    transit: false
+  });
+  const [showLayerMenu, setShowLayerMenu] = useState(false);
+  const [extraData, setExtraData] = useState({ traffic: null, safety: null, transitRoutes: null, transitStops: null });
+
+  const toggleLayer = (layerName) => {
+    setActiveLayers(prev => {
+      const isNowActive = !prev[layerName];
+      if (isNowActive) {
+        if (layerName === 'traffic' && !extraData.traffic) {
+          fetch('http://localhost:5000/api/traffic').then(r => r.json()).then(d => setExtraData(e => ({ ...e, traffic: d })));
+        } else if (layerName === 'safety' && !extraData.safety) {
+          fetch('http://localhost:5000/api/safety').then(r => r.json()).then(d => setExtraData(e => ({ ...e, safety: d })));
+        } else if (layerName === 'transit' && !extraData.transitRoutes) {
+          fetch('http://localhost:5000/api/transit/routes').then(r => r.json()).then(d => setExtraData(e => ({ ...e, transitRoutes: d })));
+          fetch('http://localhost:5000/api/transit/stops').then(r => r.json()).then(d => setExtraData(e => ({ ...e, transitStops: d })));
+        }
+      }
+      return { ...prev, [layerName]: isNowActive };
+    });
+  };
 
   // Fetch road network on mount
   useEffect(() => {
@@ -123,11 +150,39 @@ export default function MapExplorer() {
           </button>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+        <div className="flex items-center gap-2 relative">
+          <button 
+            onClick={() => setShowLayerMenu(!showLayerMenu)}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+          >
             <Layers className="w-3.5 h-3.5" />
             Layers
           </button>
+          
+          {showLayerMenu && (
+            <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-slate-200 shadow-lg rounded-xl overflow-hidden z-50">
+              <div className="px-3 py-2 bg-slate-50 border-b border-slate-100">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Map Layers</p>
+              </div>
+              <div className="p-1">
+                {[
+                  { id: 'roads', label: 'Road Network' },
+                  { id: 'traffic', label: 'Traffic Volumes' },
+                  { id: 'safety', label: 'Safety Incidents' },
+                  { id: 'transit', label: 'Public Transport' }
+                ].map(layer => (
+                  <button
+                    key={layer.id}
+                    onClick={() => toggleLayer(layer.id)}
+                    className="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg"
+                  >
+                    <span>{layer.label}</span>
+                    {activeLayers[layer.id] && <Check className="w-4 h-4 text-blue-600" />}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -188,6 +243,8 @@ export default function MapExplorer() {
             geoData={filteredGeoData}
             selectedId={selectedRoad?.id}
             onRoadClick={setSelectedRoad}
+            activeLayers={activeLayers}
+            extraData={extraData}
           />
 
           {/* Floating map legend */}

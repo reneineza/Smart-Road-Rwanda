@@ -1,5 +1,5 @@
 import './globals.css';
-import { LayoutDashboard, Map as MapIcon, Layers, Activity, ShieldAlert, BarChart3, FileText, Search, User } from 'lucide-react';
+import { LayoutDashboard, Map as MapIcon, Layers, Activity, ShieldAlert, BarChart3, FileText, Search, User, Bus } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata = {
@@ -50,6 +50,12 @@ export default function RootLayout({ children }) {
                 <Link href="/safety" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                   <ShieldAlert className="w-5 h-5" />
                   Safety
+                </Link>
+              </li>
+              <li>
+                <Link href="/transit" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                  <Bus className="w-5 h-5" />
+                  Public Transport
                 </Link>
               </li>
               <li className="pt-4 pb-2 px-4 text-xs font-semibold uppercase text-slate-500">Insights</li>

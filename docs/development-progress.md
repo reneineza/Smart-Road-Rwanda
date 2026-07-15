@@ -62,7 +62,7 @@ Data Flow:
 - **Dashboard:** Created `/traffic` with KPI cards, classification charts, and a tabular view of survey stations.
 - **Integration:** Road detail page (`/roads/[id]`) updated to show live traffic survey data linked to the road.
 
-### Milestone 5: Road Safety Analytics (Current)
+### Milestone 5: Road Safety Analytics
 - **Data Model:** Defined `Accident Record` with severity, types, conditions, and vehicle/people involvement (`road-safety-data-model.md`).
 - **Sample Data:** Created `sample_accidents.json` with 10 realistic Rwandan accident records.
 - **Backend API:** Implemented `safetyModel.js`, `safetyService.js` (with Black Spot placeholder), and `safetyController.js`. Endpoints: `/api/safety`, `/api/safety/high-risk`, `/api/roads/:id/safety`.
@@ -71,15 +71,26 @@ Data Flow:
 - **Dashboard:** Created `/safety` page featuring KPIs, charts, high-risk locations, and a crash map view.
 - **Integration:** Road detail page (`/roads/[id]`) updated to render accident history and safety alerts in the Safety tab.
 
+### Milestone 6: Public Transport and Mobility Management (Current)
+- **Data Model:** Defined `Transport Route`, `Transport Stop`, and `Transport Operator` entities, with prep for future ITS data (`public-transport-data-model.md`).
+- **Sample Data:** Created `sample_transit.json` featuring Kigali bus routes (KBS, Royal Express, RITCO), operators, and geo-located stops.
+- **Backend API:** Built `transitModel.js`, `transitService.js`, and `transitController.js` to serve routes, stops, and operators via REST endpoints.
+- **GIS Integration:** Developed `TransitLayer.js` for Leaflet, plotting bus routes (dashed lines) and transit stops (markers).
+- **Layer Control:** Upgraded `/map` Explorer page with an interactive dropdown layer control to toggle Roads, Traffic, Safety, and Transit networks.
+- **UI Components:** Built reusable cards and dashboards in `components/transit/` including `TransitSummary.jsx`, `RouteCard.jsx`, `RouteDetails.jsx`, and `StopCard.jsx`.
+- **Dashboard:** Launched `/transit` page acting as the hub for managing mobility networks and reviewing passenger capacity/route distances.
+
 ## Current Architecture
 
 ```
 Frontend (Next.js App Router)
-  ├── /map         → GIS workspace (tri-panel: list + map + info)
+  ├── /map         → GIS workspace (tri-panel: list + map + info + layer toggles)
   ├── /roads       → Road inventory table view
   ├── /roads/[id]  → Detailed engineering view
   ├── /traffic     → Mobility analytics dashboard
-  └── /safety      → Road safety and accident dashboard
+  ├── /safety      → Road safety and accident dashboard
+  └── /transit     → Public transport network management
+
 
 - Set up PostgreSQL + PostGIS (Docker).
 - Write SQL migration from `database-schema-v1.md`.

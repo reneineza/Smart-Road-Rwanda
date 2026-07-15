@@ -1,0 +1,152 @@
+{
+  "operators": [
+    {
+      "id": "op-kbs",
+      "operator_name": "Kigali Bus Services (KBS)",
+      "contact_information": "info@kbs.rw",
+      "fleet_size": 120
+    },
+    {
+      "id": "op-royal",
+      "operator_name": "Royal Express",
+      "contact_information": "contact@royalexpress.rw",
+      "fleet_size": 85
+    },
+    {
+      "id": "op-ritco",
+      "operator_name": "RITCO",
+      "contact_information": "info@ritco.rw",
+      "fleet_size": 150
+    }
+  ],
+  "stops": [
+    {
+      "id": "st-kgl-01",
+      "stop_name": "Downtown Transit Hub (Nyabugogo)",
+      "route_ids": ["rt-101", "rt-102", "rt-103", "rt-104", "rt-ritco-01"],
+      "coordinates": [30.0450, -1.9420],
+      "passenger_capacity": 5000,
+      "facilities": ["Shelter", "Ticketing Booth", "Lighting", "Restrooms"],
+      "is_terminus": true
+    },
+    {
+      "id": "st-kgl-02",
+      "stop_name": "Kigali Heights / KCC",
+      "route_ids": ["rt-101", "rt-104"],
+      "coordinates": [30.0935, -1.9545],
+      "passenger_capacity": 300,
+      "facilities": ["Shelter", "Bench", "Lighting"],
+      "is_terminus": false
+    },
+    {
+      "id": "st-kgl-03",
+      "stop_name": "Remera Bus Park",
+      "route_ids": ["rt-101", "rt-103"],
+      "coordinates": [30.1150, -1.9585],
+      "passenger_capacity": 2000,
+      "facilities": ["Shelter", "Ticketing Booth", "Lighting"],
+      "is_terminus": true
+    },
+    {
+      "id": "st-kgl-04",
+      "stop_name": "Kicukiro Centre",
+      "route_ids": ["rt-102", "rt-104"],
+      "coordinates": [30.0950, -1.9800],
+      "passenger_capacity": 800,
+      "facilities": ["Shelter", "Lighting"],
+      "is_terminus": true
+    },
+    {
+      "id": "st-nat-01",
+      "stop_name": "Musanze Central",
+      "route_ids": ["rt-ritco-01"],
+      "coordinates": [29.6350, -1.5000],
+      "passenger_capacity": 1500,
+      "facilities": ["Shelter", "Ticketing Booth"],
+      "is_terminus": true
+    }
+  ],
+  "routes": [
+    {
+      "id": "rt-101",
+      "route_name": "Nyabugogo - Remera via KCC",
+      "route_code": "101",
+      "transport_type": "Bus",
+      "operator_id": "op-kbs",
+      "start_location": "Nyabugogo",
+      "end_location": "Remera Bus Park",
+      "distance": 12.5,
+      "active": true,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0450, -1.9420],
+          [30.0650, -1.9450],
+          [30.0850, -1.9500],
+          [30.0935, -1.9545],
+          [30.1050, -1.9570],
+          [30.1150, -1.9585]
+        ]
+      }
+    },
+    {
+      "id": "rt-102",
+      "route_name": "Nyabugogo - Kicukiro Centre",
+      "route_code": "102",
+      "transport_type": "Bus",
+      "operator_id": "op-royal",
+      "start_location": "Nyabugogo",
+      "end_location": "Kicukiro Centre",
+      "distance": 10.2,
+      "active": true,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0450, -1.9420],
+          [30.0600, -1.9550],
+          [30.0750, -1.9680],
+          [30.0950, -1.9800]
+        ]
+      }
+    },
+    {
+      "id": "rt-103",
+      "route_name": "Remera - Downtown Direct",
+      "route_code": "103",
+      "transport_type": "Minibus",
+      "operator_id": "op-kbs",
+      "start_location": "Remera Bus Park",
+      "end_location": "Nyabugogo",
+      "distance": 11.0,
+      "active": true,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.1150, -1.9585],
+          [30.0800, -1.9520],
+          [30.0450, -1.9420]
+        ]
+      }
+    },
+    {
+      "id": "rt-ritco-01",
+      "route_name": "Kigali - Musanze Express",
+      "route_code": "N-01",
+      "transport_type": "Bus",
+      "operator_id": "op-ritco",
+      "start_location": "Nyabugogo",
+      "end_location": "Musanze Central",
+      "distance": 95.0,
+      "active": true,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0450, -1.9420],
+          [29.9800, -1.8000],
+          [29.8000, -1.6500],
+          [29.6350, -1.5000]
+        ]
+      }
+    }
+  ]
+}

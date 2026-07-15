@@ -4,6 +4,9 @@ import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import RoadLayer from './RoadLayer';
+import TrafficLayer from './TrafficLayer';
+import SafetyLayer from './SafetyLayer';
+import TransitLayer from './TransitLayer';
 
 // Fix Leaflet default icon paths broken by Webpack
 delete L.Icon.Default.prototype._getIconUrl;
@@ -16,18 +19,12 @@ L.Icon.Default.mergeOptions({
 const RWANDA_CENTER = [-1.9403, 29.8739];
 const INITIAL_ZOOM = 9;
 
-/**
- * GISMapContainer
- *
- * Pure map canvas. Delegates GIS layer rendering to child layer components.
- * Receives road data and selection state from the parent page.
- *
- * Props:
- *   - geoData: GeoJSON FeatureCollection
- *   - selectedId: id of selected road
- *   - onRoadClick: callback when road is clicked
- */
-export default function GISMapContainer({ geoData, selectedId, onRoadClick }) {
+export default function GISMapContainer({ 
+  geoData, selectedId, onRoadClick,
+  activeLayers = { roads: true },
+  extraData = {},
+  onExtraPointClick = () => {}
+}) {
   return (
     <MapContainer
       center={RWANDA_CENTER}
@@ -35,7 +32,6 @@ export default function GISMapContainer({ geoData, selectedId, onRoadClick }) {
       className="w-full h-full"
       zoomControl={false}
     >
-      {/* Base Layer — swap URL here for Mapbox/MapLibre/satellite */}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -43,19 +39,30 @@ export default function GISMapContainer({ geoData, selectedId, onRoadClick }) {
 
       <ZoomControl position="bottomright" />
 
-      {/* Road Network Layer — modular, receives data via props */}
       <RoadLayer
         geoData={geoData}
         selectedId={selectedId}
         onRoadClick={onRoadClick}
         fitBounds={true}
+        visible={activeLayers.roads}
       />
-
-      {/* Future layers injected here:
-          <TrafficLayer />
-          <AccidentBlackspotsLayer />
-          <InfrastructureAssetsLayer />
-      */}
+      
+      <TrafficLayer 
+        data={extraData.traffic} 
+        visible={activeLayers.traffic} 
+      />
+      
+      <SafetyLayer 
+        data={extraData.safety} 
+        onPointClick={onExtraPointClick} 
+        visible={activeLayers.safety} 
+      />
+      
+      <TransitLayer 
+        routeData={extraData.transitRoutes} 
+        stopData={extraData.transitStops} 
+        visible={activeLayers.transit} 
+      />
     </MapContainer>
   );
 }
