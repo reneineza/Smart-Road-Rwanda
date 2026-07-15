@@ -1,34 +1,38 @@
 # AI & Machine Learning Roadmap — SmartRoad Rwanda
 
-While the current architecture (Milestone 7) relies on deterministic algorithms, rule-based scoring, and declarative data layers, SmartRoad Rwanda is designed to serve as the foundation for Intelligent Transport Systems (ITS) and advanced Machine Learning (ML) models.
+This document outlines the strategic implementation of Artificial Intelligence and Intelligent Transport Systems (ITS) within SmartRoad Rwanda.
 
-This document outlines the strategic opportunities for introducing AI into the platform in future phases.
+## Foundation AI Modules (Milestone 8 - Active)
+These modules establish the core predictive architecture using statistical modeling and explainable AI patterns.
 
-## 1. Predictive Pavement Maintenance
-**Current State:** Road conditions are manually entered (Good, Fair, Poor).
-**AI Opportunity:** Ingest historical degradation data, traffic volume, and weather patterns into a time-series forecasting model (e.g., ARIMA or LSTMs) to predict *when* a road segment will degrade to a "Poor" state.
-**Benefit:** Shifts maintenance from reactive to proactive, saving capital expenditure.
+1. **Predictive Pavement Maintenance**
+   - **Methodology:** Statistical deterioration models based on traffic load, pavement age, and surface type.
+   - **Output:** Estimated timeframe until pavement drops to "Poor" condition.
 
-## 2. Traffic Congestion Prediction
-**Current State:** Traffic volumes represent static survey snapshots (AADT).
-**AI Opportunity:** Integrate real-time sensor data or floating car data (FCD) and use Graph Neural Networks (GNNs) or spatial-temporal forecasting models to predict congestion levels across the network 1-4 hours in advance.
-**Benefit:** Enables dynamic routing, variable speed limits, and smarter traffic light control.
+2. **Traffic Forecasting**
+   - **Methodology:** Linear regression projecting historical AADT into the future, adjusted for road classification growth factors.
+   - **Output:** 5-year and 10-year demand estimates.
 
-## 3. Accident Risk Prediction
-**Current State:** Black spots are identified retrospectively based on historical crash clusters.
-**AI Opportunity:** Train a classification model (Random Forest, XGBoost) on historical accidents, correlating them with geometric features (curvature), traffic volume, lighting, and real-time weather forecasts to identify segments with high *potential* for accidents before they occur.
-**Benefit:** Allows targeted deployment of safety interventions and patrols.
-
-## 4. Public Transport Optimization
-**Current State:** Transit routes and stops are mapped statically.
-**AI Opportunity:** Use clustering algorithms and demand-prediction models based on mobile phone network data or smart-card taps to identify underserved populations and dynamically optimize bus routing and scheduling.
-**Benefit:** Increases ridership and reduces wait times.
-
-## 5. Automated Infrastructure Assessment (Computer Vision)
-**Current State:** Asset inventory requires physical surveying.
-**AI Opportunity:** Deploy dash-cams on public transport fleets. Process the video feeds through object detection models (YOLO, Faster R-CNN) to automatically detect potholes, faded lane markings, and damaged road signs.
-**Benefit:** Continuous, low-cost, automated updates to the road inventory database.
+3. **Safety Risk Prediction**
+   - **Methodology:** Weighted risk scoring identifying corridors with high potential for future accidents based on geometric and traffic volume factors.
+   - **Output:** Normalized risk score with intervention recommendations.
 
 ---
 
-*Note: Implementation of these features requires migrating the current JSON-based data layer to PostgreSQL/PostGIS, followed by deploying dedicated Python microservices (FastAPI + PyTorch/Scikit-Learn) alongside the existing Node.js architecture.*
+## Future Expansions
+
+### 1. Computer Vision Pavement Assessment
+**Opportunity:** Deploy dash-cams on public transport fleets (e.g., KBS buses). Process the video feeds through object detection models (YOLO, Faster R-CNN) to automatically detect potholes, faded lane markings, and damaged road signs.
+**Benefit:** Continuous, low-cost, automated updates to the road inventory database.
+
+### 2. Digital Twin & Micro-Simulation
+**Opportunity:** Ingest real-world road geometries into traffic simulation engines (like SUMO or Vissim). Train Reinforcement Learning (RL) agents to optimize traffic light timings at major Kigali intersections.
+**Benefit:** Virtual testing ground for infrastructure changes before physical construction.
+
+### 3. Real-Time Congestion Prediction
+**Opportunity:** Integrate real-time sensor data or floating car data (FCD) using Graph Neural Networks (GNNs) or spatial-temporal forecasting models (LSTMs) to predict congestion levels across the network 1-4 hours in advance.
+**Benefit:** Enables dynamic routing, variable speed limits, and smarter traffic control.
+
+### 4. Climate Impact Modelling
+**Opportunity:** Integrate topographical data, drainage mapping, and rainfall predictions to model flood risk on the road network.
+**Benefit:** Preventative infrastructure reinforcement for vulnerable corridors during rainy seasons.

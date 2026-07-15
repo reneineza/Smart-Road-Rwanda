@@ -80,24 +80,27 @@ Data Flow:
 - **UI Components:** Built reusable cards and dashboards in `components/transit/` including `TransitSummary.jsx`, `RouteCard.jsx`, `RouteDetails.jsx`, and `StopCard.jsx`.
 - **Dashboard:** Launched `/transit` page acting as the hub for managing mobility networks and reviewing passenger capacity/route distances.
 
-### Milestone 7: Transportation Analytics and Decision Support (Current)
-- **Data Model:** Defined Network Performance, Traffic, Safety, and Transit indicators (`analytics-data-model.md`), along with future AI ML roadmap (`ai-roadmap.md`).
-- **Backend API:** Created `analyticsService.js` and `analyticsController.js` to aggregate data across all domains without duplicating JSON sources.
-- **Priority Algorithm:** Implemented a rule-based algorithm generating a 0-100 Priority Score based on AADT, accident history, and transit corridor importance.
-- **GIS Integration:** Added `AnalyticsLayer.js` to Map Explorer, overlaying prioritized corridors with dashed, color-coded heat lines to signal intervention urgency.
-- **Dashboard:** Developed `/analytics`—an Operations Center featuring cross-domain KPIs, high-demand corridor rankings, safety distribution, transit coverage, and a mini-map highlighting priority hotspots.
+### Milestone 8: AI Transportation Intelligence Layer (Current)
+- **Architecture:** Documented microservice AI architecture and roadmap (`ai-architecture.md`, `ai-roadmap.md`).
+- **AI Engine (Python):** Created `ai-engine/` with statistical prediction models for Road Condition, Traffic Forecasting, and Safety Risk.
+- **API Gateway:** Configured Node.js backend (`aiService.js`) to act as a proxy gateway to the Python AI engine, with built-in JS fallbacks for environments without Python.
+- **UI & Dashboard:** Built the `/ai-insights` Operations Center featuring explainable AI (Prediction + Reason + Action) using `PredictionCard.jsx`.
+- **GIS Integration:** Developed `AILayer.js` for Leaflet, automatically styling high-risk maintenance and safety corridors on the main map.
 
 ## Current Architecture
 
 ```
 Frontend (Next.js App Router)
   ├── /map         → GIS workspace (tri-panel: list + map + info + layer toggles)
+  ├── /ai-insights → AI Intelligence Center (predictive models)
   ├── /analytics   → Operations Center and priority insights
   ├── /roads       → Road inventory table view
   ├── /roads/[id]  → Detailed engineering view
   ├── /traffic     → Mobility analytics dashboard
   ├── /safety      → Road safety and accident dashboard
   └── /transit     → Public transport network management
+
+Backend (Node.js API Gateway) <──> AI Engine (Python FastAPI)
 
 
 - Set up PostgreSQL + PostGIS (Docker).

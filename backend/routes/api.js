@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const RoadController = require('../controllers/roadController');
 const TrafficController = require('../controllers/trafficController');
-const SafetyController = require('../controllers/safetyController');
 const TransitController = require('../controllers/transitController');
 const AnalyticsController = require('../controllers/analyticsController');
+const AIController = require('../controllers/aiController');
 
 // Health Check
 router.get('/health', (req, res) => {
@@ -41,6 +41,11 @@ router.get('/analytics/traffic', AnalyticsController.getTrafficSummary);
 router.get('/analytics/safety', AnalyticsController.getSafetySummary);
 router.get('/analytics/transit', AnalyticsController.getTransitSummary);
 router.get('/analytics/priorities', AnalyticsController.getPriorityLocations);
+
+// AI Intelligence Layer
+router.get('/ai/road-condition/:id', AIController.getRoadConditionPrediction);
+router.get('/ai/traffic-forecast/:id', AIController.getTrafficForecast);
+router.get('/ai/safety-risk/:id', AIController.getSafetyRisk);
 
 // Placeholders
 router.get('/assets', (req, res) => res.json({ message: 'Assets endpoint placeholder' }));

@@ -42,7 +42,8 @@ export default function MapExplorer() {
     traffic: false,
     safety: false,
     transit: false,
-    analytics: false
+    analytics: false,
+    ai: false
   });
   const [showLayerMenu, setShowLayerMenu] = useState(false);
   const [extraData, setExtraData] = useState({ traffic: null, safety: null, transitRoutes: null, transitStops: null, analytics: null });
@@ -173,7 +174,8 @@ export default function MapExplorer() {
                   { id: 'traffic', label: 'Traffic Volumes' },
                   { id: 'safety', label: 'Safety Incidents' },
                   { id: 'transit', label: 'Public Transport' },
-                  { id: 'analytics', label: 'Priority Analytics' }
+                  { id: 'analytics', label: 'Priority Analytics' },
+                  { id: 'ai', label: 'AI Intelligence' }
                 ].map(layer => (
                   <button
                     key={layer.id}

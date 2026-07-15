@@ -1,5 +1,5 @@
 import './globals.css';
-import { LayoutDashboard, Map as MapIcon, Layers, Activity, ShieldAlert, BarChart3, FileText, Search, User, Bus } from 'lucide-react';
+import { LayoutDashboard, Map as MapIcon, Layers, Activity, ShieldAlert, BarChart3, FileText, Search, User, Bus, Database, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata = {
@@ -66,10 +66,10 @@ export default function RootLayout({ children }) {
               </li>
               <li className="pt-4 pb-2 px-4 text-xs font-semibold uppercase text-slate-500">Insights</li>
               <li>
-                <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-                  <BarChart3 className="w-5 h-5" />
-                  Analytics
-                </a>
+                <Link href="/ai-insights" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                  <BrainCircuit className="w-5 h-5" />
+                  AI Intelligence
+                </Link>
               </li>
               <li>
                 <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
