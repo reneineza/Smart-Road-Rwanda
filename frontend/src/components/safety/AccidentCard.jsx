@@ -1,13 +1,13 @@
 'use client';
 
-import { X, Calendar, Clock, MapPin, AlertTriangle, Users, Car } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, AlertTriangle, Users, Car, ShieldAlert, Activity } from 'lucide-react';
 import Link from 'next/link';
 
 const SEVERITY_COLORS = {
-  'Fatal': { bg: 'bg-red-100', text: 'text-red-700', border: 'border-red-200', icon: '🚨' },
-  'Serious injury': { bg: 'bg-orange-100', text: 'text-orange-700', border: 'border-orange-200', icon: '⚠️' },
-  'Minor injury': { bg: 'bg-yellow-100', text: 'text-yellow-700', border: 'border-yellow-200', icon: '🩹' },
-  'Property damage only': { bg: 'bg-blue-100', text: 'text-blue-700', border: 'border-blue-200', icon: '🚙' },
+  'Fatal': { bg: 'bg-red-100', text: 'text-red-700', border: 'border-red-200', icon: <ShieldAlert className="w-6 h-6 text-red-600" /> },
+  'Serious injury': { bg: 'bg-orange-100', text: 'text-orange-700', border: 'border-orange-200', icon: <AlertTriangle className="w-6 h-6 text-orange-600" /> },
+  'Minor injury': { bg: 'bg-yellow-100', text: 'text-yellow-700', border: 'border-yellow-200', icon: <Activity className="w-6 h-6 text-yellow-600" /> },
+  'Property damage only': { bg: 'bg-blue-100', text: 'text-blue-700', border: 'border-blue-200', icon: <Car className="w-6 h-6 text-blue-600" /> },
 };
 
 export default function AccidentCard({ record, onClose }) {

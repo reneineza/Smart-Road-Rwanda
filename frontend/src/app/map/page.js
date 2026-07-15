@@ -41,10 +41,11 @@ export default function MapExplorer() {
     roads: true,
     traffic: false,
     safety: false,
-    transit: false
+    transit: false,
+    analytics: false
   });
   const [showLayerMenu, setShowLayerMenu] = useState(false);
-  const [extraData, setExtraData] = useState({ traffic: null, safety: null, transitRoutes: null, transitStops: null });
+  const [extraData, setExtraData] = useState({ traffic: null, safety: null, transitRoutes: null, transitStops: null, analytics: null });
 
   const toggleLayer = (layerName) => {
     setActiveLayers(prev => {
@@ -57,6 +58,8 @@ export default function MapExplorer() {
         } else if (layerName === 'transit' && !extraData.transitRoutes) {
           fetch('http://localhost:5000/api/transit/routes').then(r => r.json()).then(d => setExtraData(e => ({ ...e, transitRoutes: d })));
           fetch('http://localhost:5000/api/transit/stops').then(r => r.json()).then(d => setExtraData(e => ({ ...e, transitStops: d })));
+        } else if (layerName === 'analytics' && !extraData.analytics) {
+          fetch('http://localhost:5000/api/analytics/priorities').then(r => r.json()).then(d => setExtraData(e => ({ ...e, analytics: d })));
         }
       }
       return { ...prev, [layerName]: isNowActive };
@@ -169,7 +172,8 @@ export default function MapExplorer() {
                   { id: 'roads', label: 'Road Network' },
                   { id: 'traffic', label: 'Traffic Volumes' },
                   { id: 'safety', label: 'Safety Incidents' },
-                  { id: 'transit', label: 'Public Transport' }
+                  { id: 'transit', label: 'Public Transport' },
+                  { id: 'analytics', label: 'Priority Analytics' }
                 ].map(layer => (
                   <button
                     key={layer.id}

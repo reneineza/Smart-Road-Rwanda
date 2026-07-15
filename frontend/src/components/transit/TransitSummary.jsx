@@ -1,4 +1,5 @@
 'use client';
+import { Bus, MapPin, Building2 } from 'lucide-react';
 
 export default function TransitSummary({ routes, stops, operators }) {
   if (!routes || !stops || !operators) return null;
@@ -12,7 +13,7 @@ export default function TransitSummary({ routes, stops, operators }) {
       unit: `Total ${totalLength.toFixed(1)} km`,
       color: 'bg-indigo-50 border-indigo-200',
       textColor: 'text-indigo-700',
-      icon: '🚌',
+      icon: <Bus className="w-6 h-6" />,
     },
     {
       label: 'Transit Stops',
@@ -20,7 +21,7 @@ export default function TransitSummary({ routes, stops, operators }) {
       unit: 'across network',
       color: 'bg-emerald-50 border-emerald-200',
       textColor: 'text-emerald-700',
-      icon: '🚏',
+      icon: <MapPin className="w-6 h-6" />,
     },
     {
       label: 'Operators',
@@ -28,7 +29,7 @@ export default function TransitSummary({ routes, stops, operators }) {
       unit: 'Licensed companies',
       color: 'bg-amber-50 border-amber-200',
       textColor: 'text-amber-700',
-      icon: '🏢',
+      icon: <Building2 className="w-6 h-6" />,
     }
   ];
 

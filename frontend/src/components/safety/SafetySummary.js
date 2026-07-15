@@ -1,4 +1,5 @@
 'use client';
+import { ClipboardList, ShieldAlert, AlertTriangle } from 'lucide-react';
 
 export default function SafetySummary({ records }) {
   if (!Array.isArray(records) || records.length === 0) return null;
@@ -20,7 +21,7 @@ export default function SafetySummary({ records }) {
       unit: 'incidents',
       color: 'bg-blue-50 border-blue-200',
       textColor: 'text-blue-700',
-      icon: '📋',
+      icon: <ClipboardList className="w-6 h-6" />,
     },
     {
       label: 'Fatalities (Accidents)',
@@ -28,7 +29,7 @@ export default function SafetySummary({ records }) {
       unit: 'fatal incidents',
       color: 'bg-red-50 border-red-200',
       textColor: 'text-red-700',
-      icon: '🚨',
+      icon: <ShieldAlert className="w-6 h-6" />,
     },
     {
       label: 'Most Common Type',
@@ -36,7 +37,7 @@ export default function SafetySummary({ records }) {
       unit: mostCommonType,
       color: 'bg-amber-50 border-amber-200',
       textColor: 'text-amber-700',
-      icon: '⚠️',
+      icon: <AlertTriangle className="w-6 h-6" />,
     }
   ];
 

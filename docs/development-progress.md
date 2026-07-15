@@ -71,7 +71,7 @@ Data Flow:
 - **Dashboard:** Created `/safety` page featuring KPIs, charts, high-risk locations, and a crash map view.
 - **Integration:** Road detail page (`/roads/[id]`) updated to render accident history and safety alerts in the Safety tab.
 
-### Milestone 6: Public Transport and Mobility Management (Current)
+### Milestone 6: Public Transport and Mobility Management
 - **Data Model:** Defined `Transport Route`, `Transport Stop`, and `Transport Operator` entities, with prep for future ITS data (`public-transport-data-model.md`).
 - **Sample Data:** Created `sample_transit.json` featuring Kigali bus routes (KBS, Royal Express, RITCO), operators, and geo-located stops.
 - **Backend API:** Built `transitModel.js`, `transitService.js`, and `transitController.js` to serve routes, stops, and operators via REST endpoints.
@@ -80,11 +80,19 @@ Data Flow:
 - **UI Components:** Built reusable cards and dashboards in `components/transit/` including `TransitSummary.jsx`, `RouteCard.jsx`, `RouteDetails.jsx`, and `StopCard.jsx`.
 - **Dashboard:** Launched `/transit` page acting as the hub for managing mobility networks and reviewing passenger capacity/route distances.
 
+### Milestone 7: Transportation Analytics and Decision Support (Current)
+- **Data Model:** Defined Network Performance, Traffic, Safety, and Transit indicators (`analytics-data-model.md`), along with future AI ML roadmap (`ai-roadmap.md`).
+- **Backend API:** Created `analyticsService.js` and `analyticsController.js` to aggregate data across all domains without duplicating JSON sources.
+- **Priority Algorithm:** Implemented a rule-based algorithm generating a 0-100 Priority Score based on AADT, accident history, and transit corridor importance.
+- **GIS Integration:** Added `AnalyticsLayer.js` to Map Explorer, overlaying prioritized corridors with dashed, color-coded heat lines to signal intervention urgency.
+- **Dashboard:** Developed `/analytics`—an Operations Center featuring cross-domain KPIs, high-demand corridor rankings, safety distribution, transit coverage, and a mini-map highlighting priority hotspots.
+
 ## Current Architecture
 
 ```
 Frontend (Next.js App Router)
   ├── /map         → GIS workspace (tri-panel: list + map + info + layer toggles)
+  ├── /analytics   → Operations Center and priority insights
   ├── /roads       → Road inventory table view
   ├── /roads/[id]  → Detailed engineering view
   ├── /traffic     → Mobility analytics dashboard

@@ -1,7 +1,7 @@
 'use client';
 
 import { ROAD_STYLES, CONDITION_COLORS } from '../Map/roadStyles';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Route } from 'lucide-react';
 
 /**
  * RoadList
@@ -33,7 +33,7 @@ export default function RoadList({ roads = [], selectedId, onSelect, loading = f
     return (
       <div className="flex flex-col items-center justify-center py-10 text-center px-4">
         <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center mb-3">
-          <span className="text-slate-400 text-lg">🛣️</span>
+          <Route className="w-5 h-5 text-slate-400" />
         </div>
         <p className="text-sm font-medium text-slate-600">No roads found</p>
         <p className="text-xs text-slate-400 mt-1">Try adjusting your filters</p>

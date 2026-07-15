@@ -7,6 +7,7 @@ import RoadLayer from './RoadLayer';
 import TrafficLayer from './TrafficLayer';
 import SafetyLayer from './SafetyLayer';
 import TransitLayer from './TransitLayer';
+import AnalyticsLayer from './AnalyticsLayer';
 
 // Fix Leaflet default icon paths broken by Webpack
 delete L.Icon.Default.prototype._getIconUrl;
@@ -62,6 +63,11 @@ export default function GISMapContainer({
         routeData={extraData.transitRoutes} 
         stopData={extraData.transitStops} 
         visible={activeLayers.transit} 
+      />
+
+      <AnalyticsLayer
+        data={extraData.analytics}
+        active={activeLayers.analytics}
       />
     </MapContainer>
   );

@@ -4,6 +4,7 @@ const RoadController = require('../controllers/roadController');
 const TrafficController = require('../controllers/trafficController');
 const SafetyController = require('../controllers/safetyController');
 const TransitController = require('../controllers/transitController');
+const AnalyticsController = require('../controllers/analyticsController');
 
 // Health Check
 router.get('/health', (req, res) => {
@@ -33,6 +34,13 @@ router.get('/transit/routes', TransitController.getAllRoutes);
 router.get('/transit/routes/:id', TransitController.getRouteById);
 router.get('/transit/stops', TransitController.getAllStops);
 router.get('/transit/operators', TransitController.getAllOperators);
+
+// Analytics
+router.get('/analytics/summary', AnalyticsController.getNetworkSummary);
+router.get('/analytics/traffic', AnalyticsController.getTrafficSummary);
+router.get('/analytics/safety', AnalyticsController.getSafetySummary);
+router.get('/analytics/transit', AnalyticsController.getTransitSummary);
+router.get('/analytics/priorities', AnalyticsController.getPriorityLocations);
 
 // Placeholders
 router.get('/assets', (req, res) => res.json({ message: 'Assets endpoint placeholder' }));

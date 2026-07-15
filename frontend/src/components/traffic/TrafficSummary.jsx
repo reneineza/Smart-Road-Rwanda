@@ -1,4 +1,5 @@
 'use client';
+import { MapPin, Car, TrendingUp, Truck } from 'lucide-react';
 
 /**
  * TrafficSummary
@@ -33,7 +34,7 @@ export default function TrafficSummary({ records }) {
       unit: 'locations',
       color: 'bg-blue-50 border-blue-200',
       textColor: 'text-blue-700',
-      icon: '📍',
+      icon: <MapPin className="w-6 h-6" />,
     },
     {
       label: 'Highest Traffic',
@@ -41,7 +42,7 @@ export default function TrafficSummary({ records }) {
       unit: highestRecord.locationName.split('—')[0].trim(),
       color: 'bg-red-50 border-red-200',
       textColor: 'text-red-700',
-      icon: '🚦',
+      icon: <Car className="w-6 h-6" />,
     },
     {
       label: 'Avg Survey Volume',
@@ -49,7 +50,7 @@ export default function TrafficSummary({ records }) {
       unit: 'vehicles/survey',
       color: 'bg-emerald-50 border-emerald-200',
       textColor: 'text-emerald-700',
-      icon: '📊',
+      icon: <TrendingUp className="w-6 h-6" />,
     },
     {
       label: 'Avg Heavy Vehicle',
@@ -57,7 +58,7 @@ export default function TrafficSummary({ records }) {
       unit: 'of total volume',
       color: 'bg-amber-50 border-amber-200',
       textColor: 'text-amber-700',
-      icon: '🚛',
+      icon: <Truck className="w-6 h-6" />,
     },
   ];
 

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import TrafficSummary from '../../components/traffic/TrafficSummary';
 import TrafficTable from '../../components/traffic/TrafficTable';
 import { VehicleClassificationChart, VolumeComparisonChart } from '../../components/traffic/TrafficChart';
-import { Activity, Map as MapIcon } from 'lucide-react';
+import { Activity, Map as MapIcon, AlertTriangle } from 'lucide-react';
 
 // Lazy-load the map (window-dependent)
 const TrafficMapPreview = dynamic(
@@ -88,7 +88,7 @@ export default function TrafficPage() {
               {/* Engineering Notes */}
               <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-8">
                 <div className="flex items-start gap-3">
-                  <span className="text-xl">⚠️</span>
+                  <AlertTriangle className="w-6 h-6 text-amber-500" />
                   <div>
                     <p className="text-sm font-bold text-amber-800 mb-1">Note on AADT Values</p>
                     <p className="text-sm text-amber-700">

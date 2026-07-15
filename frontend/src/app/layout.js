@@ -35,9 +35,15 @@ export default function RootLayout({ children }) {
               </li>
               <li className="pt-4 pb-2 px-4 text-xs font-semibold uppercase text-slate-500">Modules</li>
               <li>
+                <Link href="/analytics" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                  <Activity className="w-5 h-5" />
+                  Operations Center
+                </Link>
+              </li>
+              <li>
                 <Link href="/roads" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-                  <Layers className="w-5 h-5" />
-                  Assets
+                  <Database className="w-5 h-5" />
+                  Road Inventory
                 </Link>
               </li>
               <li>
