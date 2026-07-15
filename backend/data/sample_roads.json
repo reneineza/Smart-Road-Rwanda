@@ -6,19 +6,26 @@
       "properties": {
         "id": "rwa-rn1-001",
         "name": "Kigali-Huye Road",
+        "code": "RN1",
         "classification": "National Road",
         "surfaceType": "Asphalt",
         "length": 134.5,
         "lanes": 2,
         "district": "Multiple",
-        "condition": "Good"
+        "condition": "Good",
+        "constructionYear": 2010,
+        "authority": "RTDA",
+        "trafficData": null,
+        "safetyData": null
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [30.0588, -1.9441],
           [29.9821, -2.0012],
-          [29.8152, -2.1334],
+          [29.8752, -2.1545],
+          [29.8152, -2.2334],
+          [29.7780, -2.3521],
           [29.7431, -2.5967]
         ]
       }
@@ -28,18 +35,25 @@
       "properties": {
         "id": "rwa-rn4-001",
         "name": "Kigali-Musanze Road",
+        "code": "RN4",
         "classification": "National Road",
         "surfaceType": "Asphalt",
         "length": 92.3,
         "lanes": 2,
         "district": "Multiple",
-        "condition": "Fair"
+        "condition": "Fair",
+        "constructionYear": 2008,
+        "authority": "RTDA",
+        "trafficData": null,
+        "safetyData": null
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [30.0588, -1.9441],
+          [30.0012, -1.8754],
           [29.9654, -1.8211],
+          [29.8921, -1.7235],
           [29.7891, -1.6122],
           [29.6345, -1.4987]
         ]
@@ -48,21 +62,167 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "kgl-kn5-001",
-        "name": "KN 5 Avenue",
-        "classification": "District Road",
+        "id": "rwa-rn3-001",
+        "name": "Kigali-Rubavu Road",
+        "code": "RN3",
+        "classification": "National Road",
         "surfaceType": "Asphalt",
-        "length": 8.2,
-        "lanes": 4,
-        "district": "Gasabo",
-        "condition": "Good"
+        "length": 157.2,
+        "lanes": 2,
+        "district": "Multiple",
+        "condition": "Good",
+        "constructionYear": 2012,
+        "authority": "RTDA",
+        "trafficData": null,
+        "safetyData": null
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
+          [30.0588, -1.9441],
+          [29.9001, -1.9112],
+          [29.7234, -1.8755],
+          [29.5512, -1.8123],
+          [29.3891, -1.7521],
+          [29.2341, -1.6845]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rwa-rn2-001",
+        "name": "Kigali-Kayonza Road",
+        "code": "RN2",
+        "classification": "National Road",
+        "surfaceType": "Asphalt",
+        "length": 63.4,
+        "lanes": 2,
+        "district": "Multiple",
+        "condition": "Good",
+        "constructionYear": 2015,
+        "authority": "RTDA",
+        "trafficData": null,
+        "safetyData": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0588, -1.9441],
+          [30.1345, -1.9221],
+          [30.2890, -1.8987],
+          [30.4234, -1.8765],
+          [30.5612, -1.8534]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rwa-dr-nyam-001",
+        "name": "Nyamata District Road",
+        "code": "DR-NM01",
+        "classification": "District Road",
+        "surfaceType": "Gravel",
+        "length": 28.7,
+        "lanes": 1,
+        "district": "Bugesera",
+        "condition": "Fair",
+        "constructionYear": 2005,
+        "authority": "Bugesera District",
+        "trafficData": null,
+        "safetyData": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.1789, -2.1456],
+          [30.2012, -2.2134],
+          [30.2345, -2.3012],
+          [30.2678, -2.3789]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "kgl-kn5-001",
+        "name": "KN 5 Avenue",
+        "code": "KN5",
+        "classification": "Urban Road",
+        "surfaceType": "Asphalt",
+        "length": 8.2,
+        "lanes": 4,
+        "district": "Gasabo",
+        "condition": "Good",
+        "constructionYear": 2018,
+        "authority": "City of Kigali",
+        "trafficData": null,
+        "safetyData": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0612, -1.9489],
+          [30.0734, -1.9512],
           [30.0895, -1.9567],
+          [30.1012, -1.9521],
           [30.1112, -1.9452],
           [30.1234, -1.9612]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "kgl-kg7-001",
+        "name": "KG 7 Avenue",
+        "code": "KG7",
+        "classification": "Urban Road",
+        "surfaceType": "Asphalt",
+        "length": 5.4,
+        "lanes": 2,
+        "district": "Nyarugenge",
+        "condition": "Good",
+        "constructionYear": 2016,
+        "authority": "City of Kigali",
+        "trafficData": null,
+        "safetyData": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0521, -1.9523],
+          [30.0612, -1.9612],
+          [30.0745, -1.9689],
+          [30.0834, -1.9712]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rwa-dr-ruh-001",
+        "name": "Ruhango Feeder Road",
+        "code": "FR-RH01",
+        "classification": "District Road",
+        "surfaceType": "Earth",
+        "length": 15.3,
+        "lanes": 1,
+        "district": "Ruhango",
+        "condition": "Poor",
+        "constructionYear": 1998,
+        "authority": "Ruhango District",
+        "trafficData": null,
+        "safetyData": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [29.7789, -2.1823],
+          [29.7612, -2.2134],
+          [29.7501, -2.2456],
+          [29.7389, -2.2891]
         ]
       }
     }

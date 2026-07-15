@@ -125,18 +125,21 @@ export default function RoadDetail() {
         )}
 
         {/* Placeholders for other tabs */}
-        {activeTab !== 'overview' && (
-          <div className="bg-white border border-slate-200 rounded-xl p-12 text-center flex flex-col items-center justify-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-              {activeTab === 'traffic' && <Activity className="w-8 h-8 text-slate-400" />}
-              {activeTab === 'safety' && <ShieldAlert className="w-8 h-8 text-slate-400" />}
-              {activeTab === 'condition' && <BarChart3 className="w-8 h-8 text-slate-400" />}
-              {activeTab === 'maintenance' && <Wrench className="w-8 h-8 text-slate-400" />}
+        {activeTab !== 'overview' && (() => {
+          const currentTab = tabs.find(t => t.id === activeTab);
+          return (
+            <div className="bg-white border border-slate-200 rounded-xl p-12 text-center flex flex-col items-center justify-center">
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                {activeTab === 'traffic' && <Activity className="w-8 h-8 text-slate-400" />}
+                {activeTab === 'safety' && <ShieldAlert className="w-8 h-8 text-slate-400" />}
+                {activeTab === 'condition' && <BarChart3 className="w-8 h-8 text-slate-400" />}
+                {activeTab === 'maintenance' && <Wrench className="w-8 h-8 text-slate-400" />}
+              </div>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2 capitalize">{currentTab?.name} Data</h3>
+              <p className="text-slate-500 max-w-md">This module is part of a future milestone. Once integrated, it will display detailed {currentTab?.name.toLowerCase()} analytics specifically for {road.name}.</p>
             </div>
-            <h3 className="text-xl font-semibold text-slate-800 mb-2 capitalize">{tab.name} Data</h3>
-            <p className="text-slate-500 max-w-md">This module is part of a future milestone. Once integrated, it will display detailed {tab.name.toLowerCase()} analytics specifically for {road.name}.</p>
-          </div>
-        )}
+          );
+        })()}
       </div>
     </div>
   );
