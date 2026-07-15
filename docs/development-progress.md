@@ -55,13 +55,32 @@ Data Flow:
     → Rendered by GISMapContainer → RoadLayer
 ```
 
-## Current Limitations
-- **Data persistence:** All data is read-only from JSON (no create/update/delete functionality in UI).
-- **Authentication:** No user login or role-based access control.
-- **Real spatial data:** GeoJSON coordinates are approximated; real Rwanda road geometries require PostGIS import.
-- **Traffic/Safety/Condition:** Tab placeholders exist in road detail view; real data pending future milestones.
+### Milestone 4: Traffic Engineering and Mobility Analytics
+- **Data Model:** Defined `Traffic Observation Point` with vehicle classification counts.
+- **Backend API:** Implemented `trafficModel.js`, `trafficService.js` (with AADT and LOS estimation), and `trafficController.js`.
+- **GIS Layer:** Added `TrafficLayer.js` to visualize traffic volumes with color-coded pulsing markers.
+- **Dashboard:** Created `/traffic` with KPI cards, classification charts, and a tabular view of survey stations.
+- **Integration:** Road detail page (`/roads/[id]`) updated to show live traffic survey data linked to the road.
 
-## Next Steps — Milestone 4: Database Migration
+### Milestone 5: Road Safety Analytics (Current)
+- **Data Model:** Defined `Accident Record` with severity, types, conditions, and vehicle/people involvement (`road-safety-data-model.md`).
+- **Sample Data:** Created `sample_accidents.json` with 10 realistic Rwandan accident records.
+- **Backend API:** Implemented `safetyModel.js`, `safetyService.js` (with Black Spot placeholder), and `safetyController.js`. Endpoints: `/api/safety`, `/api/safety/high-risk`, `/api/roads/:id/safety`.
+- **GIS Layer:** Added `SafetyLayer.js` for mapping accidents by severity (Fatal=Red, Serious=Orange, Minor=Yellow).
+- **UI Components:** Created floating `AccidentCard`, `BlackSpotCard`, `SafetySummary`, and `AccidentChart`.
+- **Dashboard:** Created `/safety` page featuring KPIs, charts, high-risk locations, and a crash map view.
+- **Integration:** Road detail page (`/roads/[id]`) updated to render accident history and safety alerts in the Safety tab.
+
+## Current Architecture
+
+```
+Frontend (Next.js App Router)
+  ├── /map         → GIS workspace (tri-panel: list + map + info)
+  ├── /roads       → Road inventory table view
+  ├── /roads/[id]  → Detailed engineering view
+  ├── /traffic     → Mobility analytics dashboard
+  └── /safety      → Road safety and accident dashboard
+
 - Set up PostgreSQL + PostGIS (Docker).
 - Write SQL migration from `database-schema-v1.md`.
 - Replace `roadModel.js` JSON reading with `pg` queries.

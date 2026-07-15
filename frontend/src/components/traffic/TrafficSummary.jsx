@@ -8,8 +8,10 @@
  * Props:
  *   - records: array of enriched traffic records
  */
-export default function TrafficSummary({ records = [] }) {
-  if (records.length === 0) return null;
+export default function TrafficSummary({ records }) {
+  // Guard: ensure records is a populated array before computing
+  if (!Array.isArray(records) || records.length === 0) return null;
+
 
   const totalSurveys = records.length;
 

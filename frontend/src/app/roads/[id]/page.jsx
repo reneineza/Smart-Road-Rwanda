@@ -10,6 +10,7 @@ export default function RoadDetail() {
   const params = useParams();
   const [road, setRoad] = useState(null);
   const [trafficRecords, setTrafficRecords] = useState([]);
+  const [safetyRecords, setSafetyRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -32,6 +33,11 @@ export default function RoadDetail() {
       .then(res => res.json())
       .then(data => setTrafficRecords(Array.isArray(data) ? data : []))
       .catch(() => setTrafficRecords([]));
+
+    fetch(`http://localhost:5000/api/roads/${params.id}/safety`)
+      .then(res => res.json())
+      .then(data => setSafetyRecords(Array.isArray(data) ? data : []))
+      .catch(() => setSafetyRecords([]));
   }, [params.id]);
 
   if (loading) return <div className="p-8 text-slate-500">Loading road details...</div>;
@@ -82,6 +88,7 @@ export default function RoadDetail() {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             const hasTrafficData = tab.id === 'traffic' && trafficRecords.length > 0;
+            const hasSafetyData = tab.id === 'safety' && safetyRecords.length > 0;
             return (
               <button
                 key={tab.id}
@@ -97,6 +104,11 @@ export default function RoadDetail() {
                 {hasTrafficData && (
                   <span className="ml-1 w-4 h-4 bg-amber-500 text-white rounded-full text-xs flex items-center justify-center font-bold">
                     {trafficRecords.length}
+                  </span>
+                )}
+                {hasSafetyData && (
+                  <span className="ml-1 w-4 h-4 bg-red-500 text-white rounded-full text-xs flex items-center justify-center font-bold">
+                    {safetyRecords.length}
                   </span>
                 )}
               </button>
@@ -145,9 +157,15 @@ export default function RoadDetail() {
                   <span className="font-medium text-slate-700">Condition: {road.condition}</span>
                 </div>
                 {trafficRecords.length > 0 && (
-                  <div className="p-3 bg-amber-50 border border-amber-100 rounded-lg">
+                  <div className="p-3 bg-amber-50 border border-amber-100 rounded-lg mb-2">
                     <p className="text-xs font-semibold text-amber-700">Traffic Data Available</p>
                     <p className="text-sm font-bold text-amber-900 mt-1">{trafficRecords.length} survey station{trafficRecords.length > 1 ? 's' : ''}</p>
+                  </div>
+                )}
+                {safetyRecords.length > 0 && (
+                  <div className="p-3 bg-red-50 border border-red-100 rounded-lg">
+                    <p className="text-xs font-semibold text-red-700">Safety Alerts</p>
+                    <p className="text-sm font-bold text-red-900 mt-1">{safetyRecords.length} recorded accident{safetyRecords.length > 1 ? 's' : ''}</p>
                   </div>
                 )}
               </div>
@@ -201,12 +219,60 @@ export default function RoadDetail() {
           </div>
         )}
 
-        {(activeTab === 'condition' || activeTab === 'safety' || activeTab === 'maintenance') && (() => {
+        {activeTab === 'safety' && (
+          <div className="space-y-6">
+            {safetyRecords.length === 0 ? (
+              <div className="bg-white border border-slate-200 rounded-xl p-12 text-center">
+                <ShieldAlert className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                <p className="text-slate-600 font-medium">No safety incidents recorded for this road.</p>
+                <p className="text-xs text-slate-400 mt-1">Accident records linked by road ID will appear here.</p>
+              </div>
+            ) : (
+              <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200">
+                      <th className="py-3 px-5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Date & Time</th>
+                      <th className="py-3 px-5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Location</th>
+                      <th className="py-3 px-5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Severity</th>
+                      <th className="py-3 px-5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {safetyRecords.map((record) => (
+                      <tr key={record.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="py-4 px-5 text-sm text-slate-600">
+                          {record.accident_date}<br/>
+                          <span className="text-xs text-slate-400">{record.accident_time}</span>
+                        </td>
+                        <td className="py-4 px-5">
+                          <p className="text-sm font-semibold text-slate-900">{record.location_name}</p>
+                        </td>
+                        <td className="py-4 px-5">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                            record.severity === 'Fatal' ? 'bg-red-100 text-red-700' :
+                            record.severity === 'Serious injury' ? 'bg-orange-100 text-orange-700' :
+                            record.severity === 'Minor injury' ? 'bg-yellow-100 text-yellow-700' :
+                            'bg-blue-100 text-blue-700'
+                          }`}>
+                            {record.severity}
+                          </span>
+                        </td>
+                        <td className="py-4 px-5 text-sm text-slate-700">{record.accident_type}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {(activeTab === 'condition' || activeTab === 'maintenance') && (() => {
           const currentTab = tabs.find(t => t.id === activeTab);
           return (
             <div className="bg-white border border-slate-200 rounded-xl p-12 text-center flex flex-col items-center">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                {activeTab === 'safety' && <ShieldAlert className="w-8 h-8 text-slate-400" />}
                 {activeTab === 'condition' && <BarChart3 className="w-8 h-8 text-slate-400" />}
                 {activeTab === 'maintenance' && <Wrench className="w-8 h-8 text-slate-400" />}
               </div>

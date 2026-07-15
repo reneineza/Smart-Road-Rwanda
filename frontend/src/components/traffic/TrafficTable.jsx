@@ -22,7 +22,15 @@ const LOS_BADGE = {
  *   - records: array of enriched traffic records
  *   - onRowClick: optional callback(record) for row selection
  */
-export default function TrafficTable({ records = [], onRowClick }) {
+export default function TrafficTable({ records, onRowClick }) {
+  if (!Array.isArray(records) || records.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400">
+        No survey records available.
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <table className="w-full text-left border-collapse">
@@ -66,3 +74,4 @@ export default function TrafficTable({ records = [], onRowClick }) {
     </div>
   );
 }
+

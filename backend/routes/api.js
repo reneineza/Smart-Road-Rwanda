@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const RoadController = require('../controllers/roadController');
 const TrafficController = require('../controllers/trafficController');
+const SafetyController = require('../controllers/safetyController');
 
 // Health Check
 router.get('/health', (req, res) => {
@@ -20,8 +21,13 @@ router.get('/roads/:id/traffic', TrafficController.getTrafficByRoadId);
 router.get('/traffic', TrafficController.getAllTraffic);
 router.get('/traffic/:id', TrafficController.getTrafficById);
 
+// Safety
+router.get('/safety', SafetyController.getAllAccidents);
+router.get('/safety/high-risk', SafetyController.getHighRiskLocations);
+router.get('/safety/:id', SafetyController.getAccidentById);
+router.get('/roads/:id/safety', SafetyController.getAccidentsByRoadId);
+
 // Placeholders
 router.get('/assets', (req, res) => res.json({ message: 'Assets endpoint placeholder' }));
-router.get('/safety', (req, res) => res.json({ message: 'Safety endpoint placeholder' }));
 
 module.exports = router;

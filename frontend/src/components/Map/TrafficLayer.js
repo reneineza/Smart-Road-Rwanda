@@ -55,7 +55,7 @@ export default function TrafficLayer({ data = [], onPointClick, visible = true }
       layerGroupRef.current = L.layerGroup().addTo(map);
     }
 
-    if (!visible || data.length === 0) return;
+    if (!visible || !Array.isArray(data) || data.length === 0) return;
 
     data.forEach((record) => {
       const [lng, lat] = record.coordinates;

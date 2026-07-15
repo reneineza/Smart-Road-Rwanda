@@ -27,8 +27,8 @@ const CATEGORY_LABELS = {
   bicycles: 'Bicycles',
 };
 
-export function VehicleClassificationChart({ records = [] }) {
-  if (records.length === 0) return null;
+export function VehicleClassificationChart({ records }) {
+  if (!Array.isArray(records) || records.length === 0) return null;
 
   // Aggregate all counts across surveys
   const totals = records.reduce(
@@ -82,8 +82,8 @@ export function VehicleClassificationChart({ records = [] }) {
   );
 }
 
-export function VolumeComparisonChart({ records = [] }) {
-  if (records.length === 0) return null;
+export function VolumeComparisonChart({ records }) {
+  if (!Array.isArray(records) || records.length === 0) return null;
 
   const maxVolume = Math.max(...records.map((r) => r.totalVehicles));
 
