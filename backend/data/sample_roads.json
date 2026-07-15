@@ -1,0 +1,70 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rwa-rn1-001",
+        "name": "Kigali-Huye Road",
+        "classification": "National Road",
+        "surfaceType": "Asphalt",
+        "length": 134.5,
+        "lanes": 2,
+        "district": "Multiple",
+        "condition": "Good"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0588, -1.9441],
+          [29.9821, -2.0012],
+          [29.8152, -2.1334],
+          [29.7431, -2.5967]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rwa-rn4-001",
+        "name": "Kigali-Musanze Road",
+        "classification": "National Road",
+        "surfaceType": "Asphalt",
+        "length": 92.3,
+        "lanes": 2,
+        "district": "Multiple",
+        "condition": "Fair"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0588, -1.9441],
+          [29.9654, -1.8211],
+          [29.7891, -1.6122],
+          [29.6345, -1.4987]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "kgl-kn5-001",
+        "name": "KN 5 Avenue",
+        "classification": "District Road",
+        "surfaceType": "Asphalt",
+        "length": 8.2,
+        "lanes": 4,
+        "district": "Gasabo",
+        "condition": "Good"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.0895, -1.9567],
+          [30.1112, -1.9452],
+          [30.1234, -1.9612]
+        ]
+      }
+    }
+  ]
+}

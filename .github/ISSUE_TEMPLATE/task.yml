@@ -1,0 +1,26 @@
+name: Task
+description: Create a new development task
+title: "[TASK]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a detailed description of the task.
+    validations:
+      required: true
+  - type: textarea
+    id: technical-details
+    attributes:
+      label: Technical Details
+      description: Specify any architecture, transportation engineering concepts, or technical requirements.
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What needs to be done for this task to be considered complete?
+    validations:
+      required: true
