@@ -14,24 +14,26 @@ export default function RootLayout({ children }) {
         {/* Sidebar Navigation */}
         <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col h-full shadow-lg z-20">
           <div className="p-6 border-b border-slate-800 flex items-center gap-3">
-            <div className="bg-blue-600 p-2 rounded-lg">
-              <MapIcon className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-xl font-bold text-white tracking-tight">SmartRoad<br/><span className="text-blue-400 text-sm font-medium uppercase tracking-wider">Rwanda</span></h1>
+            <Link href="/" className="flex items-center gap-3">
+              <div className="bg-blue-600 p-2 rounded-lg">
+                <MapIcon className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-xl font-bold text-white tracking-tight">SmartRoad<br/><span className="text-blue-400 text-sm font-medium uppercase tracking-wider">Rwanda</span></h1>
+            </Link>
           </div>
           <nav className="flex-1 overflow-y-auto py-4">
             <ul className="space-y-1 px-3">
               <li>
-                <a href="/" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                   <LayoutDashboard className="w-5 h-5" />
                   Dashboard
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/map" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <Link href="/map" className="flex items-center gap-3 px-4 py-3 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                   <MapIcon className="w-5 h-5" />
                   Map Explorer
-                </a>
+                </Link>
               </li>
               <li className="pt-4 pb-2 px-4 text-xs font-semibold uppercase text-slate-500">Modules</li>
               <li>

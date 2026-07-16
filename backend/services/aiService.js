@@ -1,7 +1,6 @@
 const RoadService = require('./roadService');
 const TrafficService = require('./trafficService');
 const SafetyService = require('./safetyService');
-const axios = require('axios'); // We can use fetch or axios if available, node 18+ has fetch natively
 
 class AIService {
   static async getRoadConditionPrediction(roadId) {

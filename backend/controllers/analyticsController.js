@@ -42,6 +42,7 @@ class AnalyticsController {
       const data = await AnalyticsService.getPriorityLocations();
       res.json(data);
     } catch (error) {
+      console.error('getPriorityLocations Error:', error);
       res.status(500).json({ error: 'Failed to retrieve priority locations' });
     }
   }

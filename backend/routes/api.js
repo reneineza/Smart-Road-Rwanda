@@ -2,21 +2,30 @@ const express = require('express');
 const router = express.Router();
 const RoadController = require('../controllers/roadController');
 const TrafficController = require('../controllers/trafficController');
+const SafetyController = require('../controllers/safetyController');
 const TransitController = require('../controllers/transitController');
 const AnalyticsController = require('../controllers/analyticsController');
 const AIController = require('../controllers/aiController');
+const GisController = require('../controllers/gisController');
 
 // Health Check
 router.get('/health', (req, res) => {
   res.json({ status: 'SmartRoad Rwanda API running', timestamp: new Date().toISOString() });
 });
 
-// Roads
+// Road Inventory Routes
 router.get('/roads', RoadController.getAllRoads);
 router.get('/roads/:id', RoadController.getRoadById);
 router.post('/roads', RoadController.createRoad);
 
-// Road-specific traffic (nested resource)
+// GIS Layers Routes
+router.get('/gis/districts', GisController.getDistricts);
+router.get('/gis/sectors', GisController.getSectors);
+router.get('/gis/lakes', GisController.getLakes);
+router.get('/gis/rivers', GisController.getRivers);
+router.get('/gis/markets', GisController.getMarkets);
+
+// Transit Network Routes
 router.get('/roads/:id/traffic', TrafficController.getTrafficByRoadId);
 
 // Traffic

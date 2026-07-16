@@ -22,10 +22,31 @@ class TransitModel {
     });
   }
 
-  static getAllStops() {
-    return new Promise((resolve) => {
-      resolve(readData().stops || []);
-    });
+  static async getAllStops() {
+    try {
+      const db = require('../db');
+      const result = await db.query(`
+        SELECT 
+          properties, 
+          ST_AsGeoJSON(geom)::json AS geometry 
+        FROM transit_stops
+      `);
+      
+      const features = result.rows.map(row => ({
+        type: 'Feature',
+        properties: row.properties,
+        geometry: row.geometry
+      }));
+
+      return {
+        type: 'FeatureCollection',
+        features
+      };
+    } catch (err) {
+      console.error('Error fetching transit stops from DB:', err);
+      // Fallback to sample data if table doesn't exist or error occurs
+      return readData().stops || [];
+    }
   }
 
   static getAllOperators() {

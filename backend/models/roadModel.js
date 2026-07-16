@@ -1,42 +1,106 @@
-const fs = require('fs');
-const path = require('path');
+const db = require('../db');
 
-const dataPath = path.join(__dirname, '../data/sample_roads.json');
-
-// Read data synchronously for simplicity in this temporary JSON model
-const readData = () => {
-  const rawData = fs.readFileSync(dataPath);
-  return JSON.parse(rawData);
-};
+const DataSourceFactory = require('../adapters/DataSourceFactory');
 
 class RoadModel {
-  static getAllRoads() {
-    return new Promise((resolve) => {
-      const data = readData();
-      resolve(data);
-    });
+  static async getAllRoads() {
+    try {
+      const result = await db.query(`
+        SELECT 
+          properties, 
+          ST_AsGeoJSON(geom)::json AS geometry,
+          ST_Length(geom::geography) / 1000 AS length_km
+        FROM roads
+      `);
+      
+      const features = result.rows.map(row => {
+        const p = row.properties;
+        const source = p.source || 'OpenStreetMap';
+        const engineering = DataSourceFactory.getEngineeringAttributes(source, p);
+        engineering.length = parseFloat(row.length_km.toFixed(2));
+
+        return {
+          type: 'Feature',
+          id: p.id,
+          geometry: row.geometry,
+          engineering: engineering,
+          future_modules: {
+            traffic: [],
+            safety: [],
+            maintenance: []
+          },
+          // Kept for backward compatibility while migrating frontend
+          properties: {
+            ...p,
+            ...engineering
+          }
+        };
+      });
+
+      return {
+        type: 'FeatureCollection',
+        features
+      };
+    } catch (err) {
+      console.error('Error fetching roads from DB:', err);
+      throw err;
+    }
   }
 
-  static getRoadById(id) {
-    return new Promise((resolve) => {
-      const data = readData();
-      const feature = data.features.find(f => f.properties.id === id);
-      resolve(feature || null);
-    });
+  static async getRoadById(id) {
+    try {
+      const result = await db.query(`
+        SELECT 
+          properties, 
+          ST_AsGeoJSON(geom)::json AS geometry,
+          ST_Length(geom::geography) / 1000 AS length_km
+        FROM roads 
+        WHERE properties->>'id' = $1
+      `, [id]);
+
+      if (result.rows.length === 0) return null;
+
+      const row = result.rows[0];
+      const p = row.properties;
+      const source = p.source || 'OpenStreetMap';
+      
+      const engineering = DataSourceFactory.getEngineeringAttributes(source, p);
+      engineering.length = parseFloat(row.length_km.toFixed(2));
+
+      return {
+        type: 'Feature',
+        id: p.id,
+        geometry: row.geometry,
+        engineering: engineering,
+        future_modules: {
+          traffic: [],
+          safety: [],
+          maintenance: []
+        },
+        // Kept for backward compatibility while migrating frontend
+        properties: {
+          ...p,
+          ...engineering
+        }
+      };
+    } catch (err) {
+      console.error('Error fetching road by ID:', err);
+      throw err;
+    }
   }
 
   static createRoad(newRoad) {
-    // Placeholder for future DB implementation
+    // Requires inserting into PostGIS
     return Promise.resolve(newRoad);
   }
 
   static updateRoad(id, updates) {
-    // Placeholder for future DB implementation
+    // Requires updating PostGIS
     return Promise.resolve({ id, ...updates });
   }
 
   static deleteRoad(id) {
-    // Placeholder for future DB implementation
+    // Requires deleting from PostGIS
     return Promise.resolve(true);
   }
 }

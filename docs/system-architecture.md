@@ -2,22 +2,26 @@
 
 The SmartRoad Rwanda platform utilizes a modern, decoupled architecture designed to handle geospatial transportation data, engineering analytics, and AI modeling.
 
+## 2. Architecture Components
+
+### Data Storage (Neon Serverless PostgreSQL + PostGIS)
+- **Spatial Engine:** PostGIS handles all spatial operations (bounding boxes, intersections).
+- **Engineering Schema:** Roads table stores `geom` for spatial data and a JSONB column `properties` representing engineering metadata.
+- **Optimization:** A `GIST` index on the `geom` column guarantees high-performance spatial queries, enabling lazy loading on the frontend map.
+
+### Backend (Node.js + Express)
+- **DataSource Abstraction:** The backend uses an Adapter Pattern (`DataSourceFactory`, `OsmAdapter`) to decouple raw GIS data (like OpenStreetMap) from the core transportation platform logic.
+- **Engineering Intelligence:** Raw road geometry is separated from engineering attributes. The API serves `{ geometry, engineering: { classification, lanes, surface, ... } }`.
+- **Modular APIs:** Separation of concerns via route-specific controllers (Traffic, Safety, AI).
+- **Authentication:** Token-based authentication with robust authorization rules for different administrative roles.
+- **Business Logic:** Handles CRUD operations for road assets, coordinates data validation, and acts as a gateway between the frontend and the database/analytics layers.
+
 ## Frontend
 - **Framework:** Next.js (React)
 - **Language:** Javascript
 - **UI:** Modern UI component library
 - **Role:** Delivers a responsive, highly interactive user interface for dashboards, data entry, and map visualization.
 
-## Backend
-- **Framework:** NestJS / Node.js
-- **Architecture:** API-driven architecture
-- **Authentication:** Token-based authentication with robust authorization rules for different administrative roles.
-- **Business Logic:** Handles CRUD operations for road assets, coordinates data validation, and acts as a gateway between the frontend and the database/analytics layers.
-
-## Database
-- **Primary Database:** PostgreSQL
-- **Geospatial Extension:** PostGIS
-- **Role:** Acts as the central repository for all structured and spatial data, ensuring transactional integrity and high-performance geospatial queries for the transportation network.
 
 ## AI / Data Layer
 - **Language/Environment:** Python

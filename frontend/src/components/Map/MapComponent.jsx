@@ -1,14 +1,16 @@
 'use client';
 
-import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
+import { MapContainer, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import RoadLayer from './RoadLayer';
-import TrafficLayer from './TrafficLayer';
-import SafetyLayer from './SafetyLayer';
-import TransitLayer from './TransitLayer';
-import AnalyticsLayer from './AnalyticsLayer';
-import AILayer from './AILayer';
+import dynamic from 'next/dynamic';
+
+const RoadLayer = dynamic(() => import('./RoadLayer'), { ssr: false });
+const TrafficLayer = dynamic(() => import('./TrafficLayer'), { ssr: false });
+const SafetyLayer = dynamic(() => import('./SafetyLayer'), { ssr: false });
+const TransitLayer = dynamic(() => import('./TransitLayer'), { ssr: false });
+const AnalyticsLayer = dynamic(() => import('./AnalyticsLayer'), { ssr: false });
+const AILayer = dynamic(() => import('./AILayer'), { ssr: false });
 
 // Fix Leaflet default icon paths broken by Webpack
 delete L.Icon.Default.prototype._getIconUrl;
@@ -41,40 +43,96 @@ export default function GISMapContainer({
 
       <ZoomControl position="bottomright" />
 
-      <RoadLayer
-        geoData={geoData}
-        selectedId={selectedId}
-        onRoadClick={onRoadClick}
-        fitBounds={true}
-        visible={activeLayers.roads}
-      />
+      {/* Dynamic Layer Rendering */}
+      {activeLayers.roads && (
+        <RoadLayer
+          geoData={geoData}
+          selectedId={selectedId}
+          onRoadClick={onRoadClick}
+          fitBounds={true}
+          visible={true}
+        />
+      )}
       
-      <TrafficLayer 
-        data={extraData.traffic} 
-        visible={activeLayers.traffic} 
-      />
+      {activeLayers.traffic && (
+        <TrafficLayer 
+          data={extraData.traffic} 
+          visible={true} 
+        />
+      )}
       
-      <SafetyLayer 
-        data={extraData.safety} 
-        onPointClick={onExtraPointClick} 
-        visible={activeLayers.safety} 
-      />
+      {activeLayers.safety && (
+        <SafetyLayer 
+          data={extraData.safety} 
+          onPointClick={onExtraPointClick} 
+          visible={true} 
+        />
+      )}
       
-      <TransitLayer 
-        routeData={extraData.transitRoutes} 
-        stopData={extraData.transitStops} 
-        visible={activeLayers.transit} 
-      />
+      {activeLayers.transit && (
+        <TransitLayer 
+          routeData={extraData.transitRoutes} 
+          stopData={extraData.transitStops} 
+          visible={true} 
+        />
+      )}
 
-      <AnalyticsLayer
-        data={extraData.analytics}
-        active={activeLayers.analytics}
-      />
+      {activeLayers.analytics && (
+        <AnalyticsLayer
+          data={extraData.analytics}
+          active={true}
+        />
+      )}
 
-      <AILayer
-        geoData={geoData}
-        active={activeLayers.ai}
-      />
+      {activeLayers.ai && (
+        <AILayer
+          geoData={geoData}
+          active={true}
+        />
+      )}
+
+      {/* Static Administrative Layers */}
+      {activeLayers.admin && extraData.districts && (
+        <GeoJSON 
+          data={extraData.districts} 
+          style={{ color: '#64748b', weight: 2, fillOpacity: 0.1, dashArray: '5, 5' }} 
+        />
+      )}
+      {activeLayers.admin && extraData.sectors && (
+        <GeoJSON 
+          data={extraData.sectors} 
+          style={{ color: '#94a3b8', weight: 1, fillOpacity: 0.05, dashArray: '2, 4' }} 
+        />
+      )}
+
+      {activeLayers.hydro && extraData.lakes && (
+        <GeoJSON 
+          data={extraData.lakes} 
+          style={{ color: '#0ea5e9', weight: 1, fillColor: '#38bdf8', fillOpacity: 0.6 }} 
+        />
+      )}
+      {activeLayers.hydro && extraData.rivers && (
+        <GeoJSON 
+          data={extraData.rivers} 
+          style={{ color: '#38bdf8', weight: 2 }} 
+        />
+      )}
+
+      {activeLayers.poi && extraData.markets && (
+        <GeoJSON 
+          data={extraData.markets} 
+          pointToLayer={(feature, latlng) => {
+            return L.circleMarker(latlng, {
+              radius: 6,
+              fillColor: '#f59e0b',
+              color: '#fff',
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 0.9
+            });
+          }}
+        />
+      )}
     </MapContainer>
   );
 }

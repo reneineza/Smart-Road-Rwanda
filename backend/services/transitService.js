@@ -4,12 +4,13 @@ class TransitService {
   static async getAllRoutes() {
     const routes = await TransitModel.getAllRoutes();
     const operators = await TransitModel.getAllOperators();
-    const stops = await TransitModel.getAllStops();
+    const stopsData = await TransitModel.getAllStops();
+    const stops = stopsData.features ? stopsData.features.map(f => f.properties) : stopsData;
 
     // Enrich routes with operator info and stop counts
     return routes.map(route => {
       const op = operators.find(o => o.id === route.operator_id);
-      const routeStops = stops.filter(s => s.route_ids.includes(route.id));
+      const routeStops = stops.filter(s => (s.route_ids || []).includes(route.id));
       
       return {
         ...route,
@@ -24,25 +25,45 @@ class TransitService {
     if (!route) return null;
 
     const operators = await TransitModel.getAllOperators();
-    const stops = await TransitModel.getAllStops();
+    const stopsData = await TransitModel.getAllStops();
+    const stops = stopsData.features ? stopsData.features.map(f => f.properties) : stopsData;
 
     const op = operators.find(o => o.id === route.operator_id);
-    const routeStops = stops.filter(s => s.route_ids.includes(route.id));
+    const routeStops = stops.filter(s => (s.route_ids || []).includes(route.id));
 
     return {
       ...route,
       operator: op || { operator_name: 'Unknown' },
-      stops: routeStops.map(s => ({ id: s.id, name: s.stop_name, coordinates: s.coordinates }))
+      stops: routeStops.map(s => ({ id: s.id, name: s.stop_name || s.name, coordinates: s.coordinates }))
     };
   }
 
   static async getAllStops() {
-    const stops = await TransitModel.getAllStops();
+    const stopsData = await TransitModel.getAllStops();
+    // Return original GeoJSON if it's a FeatureCollection, so frontend map works
+    if (stopsData.type === 'FeatureCollection') {
+      const routes = await TransitModel.getAllRoutes();
+      stopsData.features = stopsData.features.map(f => {
+        const routeIds = f.properties.route_ids || [];
+        const stopRoutes = routeIds.map(rId => {
+          const r = routes.find(route => route.id === rId);
+          return r ? { id: r.id, code: r.route_code, name: r.route_name } : null;
+        }).filter(Boolean);
+        
+        f.properties.routes_served = stopRoutes;
+        return f;
+      });
+      return stopsData; // Actually, the map expects FeatureCollection for stops? No, the frontend transit page expects an array.
+    }
+    
+    // For legacy array format
+    const stops = stopsData.features ? stopsData.features.map(f => f.properties) : stopsData;
     const routes = await TransitModel.getAllRoutes();
 
     // Enrich stops with route details
     return stops.map(stop => {
-      const stopRoutes = stop.route_ids.map(rId => {
+      const routeIds = stop.route_ids || [];
+      const stopRoutes = routeIds.map(rId => {
         const r = routes.find(route => route.id === rId);
         return r ? { id: r.id, code: r.route_code, name: r.route_name } : null;
       }).filter(Boolean);

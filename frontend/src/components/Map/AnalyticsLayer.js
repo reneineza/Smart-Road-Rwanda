@@ -12,7 +12,7 @@ export default function AnalyticsLayer({ data, active }) {
     if (!active || !data || data.length === 0) {
       if (layer) {
         map.removeLayer(layer);
-        setLayer(null);
+        setTimeout(() => setLayer(null), 0);
       }
       return;
     }
@@ -61,7 +61,7 @@ export default function AnalyticsLayer({ data, active }) {
     });
 
     newLayer.addTo(map);
-    setLayer(newLayer);
+    setTimeout(() => setLayer(newLayer), 0);
 
     return () => {
       if (newLayer) {

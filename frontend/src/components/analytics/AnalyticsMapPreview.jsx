@@ -43,31 +43,30 @@ export default function AnalyticsMapPreview({ priorities }) {
     `, { sticky: true });
   };
 
-  const BoundsFitter = () => {
-    const map = useMap();
-    useEffect(() => {
-      if (geoData.features.length > 0) {
-        const layer = L.geoJSON(geoData);
-        map.fitBounds(layer.getBounds(), { padding: [30, 30] });
-      }
-    }, [map]);
-    return null;
-  };
-
   return (
     <MapContainer
-      center={[-1.9403, 29.8739]}
-      zoom={9}
+      center={[-1.9403, 29.8739]} // Kigali roughly
+      zoom={11}
       className="w-full h-full"
       zoomControl={false}
-      attributionControl={false}
     >
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        opacity={0.5} // fade base map to highlight priorities
+        attribution='&copy; OpenStreetMap'
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       />
       <GeoJSON data={geoData} style={styleFeature} onEachFeature={onEachFeature} />
-      <BoundsFitter />
+      <BoundsFitter geoData={geoData} />
     </MapContainer>
   );
 }
+
+const BoundsFitter = ({ geoData }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (geoData && geoData.features && geoData.features.length > 0) {
+      const layer = L.geoJSON(geoData);
+      map.fitBounds(layer.getBounds(), { padding: [30, 30] });
+    }
+  }, [map, geoData]);
+  return null;
+};

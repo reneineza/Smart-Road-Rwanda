@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { Search, SlidersHorizontal, X, Layers, ChevronDown, Check } from 'lucide-react';
 import RoadList from '../../components/roads/RoadList';
-import RoadInfoPanel from '../../components/roads/RoadInfoPanel';
+import FeatureInspector from '../../components/Map/FeatureInspector';
 import MapLegend from '../../components/Map/MapLegend';
 import { CLASSIFICATION_OPTIONS, SURFACE_OPTIONS, CONDITION_OPTIONS } from '../../components/Map/roadStyles';
 
@@ -43,10 +43,16 @@ export default function MapExplorer() {
     safety: false,
     transit: false,
     analytics: false,
-    ai: false
+    ai: false,
+    admin: false,
+    hydro: false,
+    poi: false
   });
   const [showLayerMenu, setShowLayerMenu] = useState(false);
-  const [extraData, setExtraData] = useState({ traffic: null, safety: null, transitRoutes: null, transitStops: null, analytics: null });
+  const [extraData, setExtraData] = useState({ 
+    traffic: null, safety: null, transitRoutes: null, transitStops: null, analytics: null,
+    districts: null, sectors: null, lakes: null, rivers: null, markets: null
+  });
 
   const toggleLayer = (layerName) => {
     setActiveLayers(prev => {
@@ -61,6 +67,14 @@ export default function MapExplorer() {
           fetch('http://localhost:5000/api/transit/stops').then(r => r.json()).then(d => setExtraData(e => ({ ...e, transitStops: d })));
         } else if (layerName === 'analytics' && !extraData.analytics) {
           fetch('http://localhost:5000/api/analytics/priorities').then(r => r.json()).then(d => setExtraData(e => ({ ...e, analytics: d })));
+        } else if (layerName === 'admin' && !extraData.districts) {
+          fetch('http://localhost:5000/api/gis/districts').then(r => r.json()).then(d => setExtraData(e => ({ ...e, districts: d })));
+          fetch('http://localhost:5000/api/gis/sectors').then(r => r.json()).then(d => setExtraData(e => ({ ...e, sectors: d })));
+        } else if (layerName === 'hydro' && !extraData.lakes) {
+          fetch('http://localhost:5000/api/gis/lakes').then(r => r.json()).then(d => setExtraData(e => ({ ...e, lakes: d })));
+          fetch('http://localhost:5000/api/gis/rivers').then(r => r.json()).then(d => setExtraData(e => ({ ...e, rivers: d })));
+        } else if (layerName === 'poi' && !extraData.markets) {
+          fetch('http://localhost:5000/api/gis/markets').then(r => r.json()).then(d => setExtraData(e => ({ ...e, markets: d })));
         }
       }
       return { ...prev, [layerName]: isNowActive };
@@ -175,7 +189,10 @@ export default function MapExplorer() {
                   { id: 'safety', label: 'Safety Incidents' },
                   { id: 'transit', label: 'Public Transport' },
                   { id: 'analytics', label: 'Priority Analytics' },
-                  { id: 'ai', label: 'AI Intelligence' }
+                  { id: 'ai', label: 'AI Intelligence' },
+                  { id: 'admin', label: 'Administrative Boundaries' },
+                  { id: 'hydro', label: 'Hydrography (Lakes/Rivers)' },
+                  { id: 'poi', label: 'Markets & Centers' }
                 ].map(layer => (
                   <button
                     key={layer.id}
@@ -258,8 +275,9 @@ export default function MapExplorer() {
 
           {/* Selected road info panel — floats over the map */}
           {selectedRoad && (
-            <RoadInfoPanel
-              road={selectedRoad}
+            <FeatureInspector
+              roadId={selectedRoad.id || selectedRoad.properties?.id}
+              feature={selectedRoad}
               onClose={() => setSelectedRoad(null)}
             />
           )}

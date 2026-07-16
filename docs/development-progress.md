@@ -80,18 +80,16 @@ Data Flow:
 - **UI Components:** Built reusable cards and dashboards in `components/transit/` including `TransitSummary.jsx`, `RouteCard.jsx`, `RouteDetails.jsx`, and `StopCard.jsx`.
 - **Dashboard:** Launched `/transit` page acting as the hub for managing mobility networks and reviewing passenger capacity/route distances.
 
-### Milestone 8: AI Transportation Intelligence Layer (Current)
-- **Architecture:** Documented microservice AI architecture and roadmap (`ai-architecture.md`, `ai-roadmap.md`).
-- **AI Engine (Python):** Created `ai-engine/` with statistical prediction models for Road Condition, Traffic Forecasting, and Safety Risk.
-- **API Gateway:** Configured Node.js backend (`aiService.js`) to act as a proxy gateway to the Python AI engine, with built-in JS fallbacks for environments without Python.
-- **UI & Dashboard:** Built the `/ai-insights` Operations Center featuring explainable AI (Prediction + Reason + Action) using `PredictionCard.jsx`.
-- **GIS Integration:** Developed `AILayer.js` for Leaflet, automatically styling high-risk maintenance and safety corridors on the main map.
+### Milestone 9: PostGIS Database Migration & Real Data Ingestion (Current)
+- **Database Architecture:** Migrated spatial data infrastructure from static mock JSON files to a Cloud Serverless PostgreSQL database with PostGIS via Neon.
+- **Data Ingestion:** Parsed and uploaded real-world GIS Shapefiles (`Estradas_MDKZ` and `Paragens`) converting raw spatial geometries into PostGIS format using Node.js `shapefile` parsing.
+- **Backend Refactoring:** Refactored `roadModel.js` and `transitModel.js` to construct `FeatureCollection` objects dynamically by executing raw SQL queries (`ST_AsGeoJSON`) against the Neon cloud database.
 
 ## Current Architecture
 
 ```
 Frontend (Next.js App Router)
-  ├── /map         → GIS workspace (tri-panel: list + map + info + layer toggles)
+  ├── /map         → GIS workspace (rendering real spatial geometries)
   ├── /ai-insights → AI Intelligence Center (predictive models)
   ├── /analytics   → Operations Center and priority insights
   ├── /roads       → Road inventory table view
@@ -101,6 +99,8 @@ Frontend (Next.js App Router)
   └── /transit     → Public transport network management
 
 Backend (Node.js API Gateway) <──> AI Engine (Python FastAPI)
+       │
+       └──> Neon Serverless PostgreSQL + PostGIS
 
 
 - Set up PostgreSQL + PostGIS (Docker).

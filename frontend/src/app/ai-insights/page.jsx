@@ -17,8 +17,8 @@ export default function AIInsights() {
   useEffect(() => {
     const fetchPredictions = async () => {
       try {
-        // Mock targets: 1 (KN 5 Ave), 3 (RN1), 5 (Gishushu)
-        const targets = ['1', '3', '5'];
+        // Use actual IDs from the sample_roads.json data
+        const targets = ['rwa-rn1-001', 'rwa-rn4-001', 'kgl-kn5-001'];
         
         const conditions = await Promise.all(targets.map(id => fetch(`http://localhost:5000/api/ai/road-condition/${id}`).then(r => r.json())));
         const traffic = await Promise.all(targets.map(id => fetch(`http://localhost:5000/api/ai/traffic-forecast/${id}`).then(r => r.json())));

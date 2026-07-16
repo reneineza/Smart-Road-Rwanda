@@ -13,7 +13,8 @@ export default function AILayer({ geoData, active }) {
     if (!active || !geoData) {
       if (layer) {
         map.removeLayer(layer);
-        setLayer(null);
+        // We defer the state update to avoid cascading renders
+        setTimeout(() => setLayer(null), 0);
       }
       return;
     }
