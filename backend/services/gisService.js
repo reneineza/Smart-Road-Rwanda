@@ -69,6 +69,28 @@ class GisService {
       throw err;
     }
   }
+  static async getLandcover(type) {
+    try {
+      const result = await db.query(`
+        SELECT 
+          properties, 
+          ST_AsGeoJSON(geom)::json AS geometry 
+        FROM landcover
+        WHERE type = $1
+      `, [type]);
+      
+      const features = result.rows.map(row => ({
+        type: 'Feature',
+        properties: row.properties,
+        geometry: row.geometry
+      }));
+
+      return { type: 'FeatureCollection', features };
+    } catch (err) {
+      console.error('Error fetching landcover:', err);
+      throw err;
+    }
+  }
 }
 
 module.exports = GisService;

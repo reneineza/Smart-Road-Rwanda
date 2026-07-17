@@ -45,6 +45,14 @@ class GisController {
       res.status(500).json({ error: 'Failed to retrieve markets' });
     }
   }
+  static async getLandcover(req, res) {
+    try {
+      const data = await GisService.getLandcover('Landcover');
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to retrieve landcover' });
+    }
+  }
 }
 
 module.exports = GisController;

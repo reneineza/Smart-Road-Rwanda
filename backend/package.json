@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed:local": "node scripts/seed_local_geodata.js",
+    "seed:comprehensive": "node scripts/seed_comprehensive.js"
   },
   "keywords": [],
   "author": "",

@@ -133,6 +133,13 @@ export default function GISMapContainer({
           }}
         />
       )}
+
+      {activeLayers.landcover && extraData.landcover && (
+        <GeoJSON 
+          data={extraData.landcover} 
+          style={{ color: '#22c55e', weight: 0, fillColor: '#4ade80', fillOpacity: 0.3 }} 
+        />
+      )}
     </MapContainer>
   );
 }

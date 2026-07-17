@@ -46,12 +46,13 @@ export default function MapExplorer() {
     ai: false,
     admin: false,
     hydro: false,
-    poi: false
+    poi: false,
+    landcover: false
   });
   const [showLayerMenu, setShowLayerMenu] = useState(false);
   const [extraData, setExtraData] = useState({ 
     traffic: null, safety: null, transitRoutes: null, transitStops: null, analytics: null,
-    districts: null, sectors: null, lakes: null, rivers: null, markets: null
+    districts: null, sectors: null, lakes: null, rivers: null, markets: null, landcover: null
   });
 
   const toggleLayer = (layerName) => {
@@ -75,6 +76,8 @@ export default function MapExplorer() {
           fetch('http://localhost:5000/api/gis/rivers').then(r => r.json()).then(d => setExtraData(e => ({ ...e, rivers: d })));
         } else if (layerName === 'poi' && !extraData.markets) {
           fetch('http://localhost:5000/api/gis/markets').then(r => r.json()).then(d => setExtraData(e => ({ ...e, markets: d })));
+        } else if (layerName === 'landcover' && !extraData.landcover) {
+          fetch('http://localhost:5000/api/gis/landcover').then(r => r.json()).then(d => setExtraData(e => ({ ...e, landcover: d })));
         }
       }
       return { ...prev, [layerName]: isNowActive };
@@ -192,7 +195,8 @@ export default function MapExplorer() {
                   { id: 'ai', label: 'AI Intelligence' },
                   { id: 'admin', label: 'Administrative Boundaries' },
                   { id: 'hydro', label: 'Hydrography (Lakes/Rivers)' },
-                  { id: 'poi', label: 'Markets & Centers' }
+                  { id: 'poi', label: 'Markets & Centers' },
+                  { id: 'landcover', label: 'Landcover & Soil' }
                 ].map(layer => (
                   <button
                     key={layer.id}
